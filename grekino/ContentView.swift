@@ -9,21 +9,24 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-    @State private var selectedTab: Int = 0
+    @State private var selectedTab: Tabs = .one
 
     var body: some View {
         TabView(selection: $selectedTab){
-            Tab("One", systemImage: "1.circle", value: 1) {
+            Tab(Tabs.one.name, systemImage: Tabs.one.symbol, value: Tabs.one) {
                 MovieListView(listId: $selectedTab)
             }
-            Tab("Two", systemImage: "2.circle", value: 2) {
+            Tab(Tabs.two.name, systemImage: Tabs.two.symbol, value: Tabs.two) {
                 MovieListView(listId: $selectedTab)
             }
-            Tab("Three", systemImage: "3.circle", value: 3) {
+            Tab(Tabs.three.name, systemImage: Tabs.three.symbol, value: Tabs.three) {
                 MovieListView(listId: $selectedTab)
             }
-            Tab("Four", systemImage: "4.circle", value: 4) {
+            Tab(Tabs.four.name, systemImage: Tabs.four.symbol, value: Tabs.four) {
                 MovieListView(listId: $selectedTab)
+            }
+            Tab(Tabs.search.name, systemImage: Tabs.search.symbol, value: Tabs.search) {
+                Text("search")
             }
         }
     }

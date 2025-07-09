@@ -7,8 +7,8 @@
 import SwiftUI
 
 struct MovieListView: View {
-    @Binding var listId: Int
+    @Binding var listId: Tabs
     var body: some View {
-        Text("Movie List View: " + String(listId))
+        Text("Movie List View: " + listId.name)
     }
 }
