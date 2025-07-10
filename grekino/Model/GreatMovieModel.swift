@@ -18,4 +18,22 @@ struct GreatMovieModel: Identifiable, Codable {
     var userStarRating: Int?
     var imdbId: String
     var posterImageURL: String?
+    var genres: [String]
+    var dateWatched: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name = "Name"
+        case year = "Year"
+        case volume = "Volume"
+        case director = "Director"
+        case isCriterion = "IsCriterion"
+        case isWatched = "IsWatched"
+        case userReview = "UserReview"
+        case userStarRating = "UserStarRating"
+        case imdbId = "ImdbId"
+        case posterImageURL = "PosterImageURL"
+        case genres = "Genres"
+        case dateWatched = "DateWatched"
+    }
 }
