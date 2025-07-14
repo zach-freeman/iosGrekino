@@ -9,6 +9,7 @@ import FirebaseFirestore
 struct GreatMovieModel: Identifiable, Codable {
     @DocumentID var id: String?
     var name: String
+    var sortableName: String
     var year: Int
     var volume: Int
     var director: String
@@ -24,6 +25,7 @@ struct GreatMovieModel: Identifiable, Codable {
     enum CodingKeys: String, CodingKey {
         case id
         case name = "Name"
+        case sortableName = "SortableName"
         case year = "Year"
         case volume = "Volume"
         case director = "Director"

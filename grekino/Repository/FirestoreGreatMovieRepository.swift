@@ -37,7 +37,7 @@ class FirestoreGreatMovieRepository: ObservableObject {
     func getGreatMovieByVolume(volume: Int) {
         db.collection("great_movies")
             .whereField("Volume", isEqualTo: volume)
-            .order(by: "Name").addSnapshotListener { snapshot, error in
+            .order(by: "SortableName").addSnapshotListener { snapshot, error in
             if let error = error {
                 print("Error getting great movies: \(error)")
                 return
