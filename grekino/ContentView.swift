@@ -15,16 +15,24 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $selectedTab){
             Tab(Tabs.one.name, systemImage: Tabs.one.symbol, value: Tabs.one) {
-                MovieListView(listId: $selectedTab)
+                MovieListView(
+                    viewModel: MovieListViewModel(repository: FirestoreGreatMovieRepository()),
+                        listId: $selectedTab)
             }
             Tab(Tabs.two.name, systemImage: Tabs.two.symbol, value: Tabs.two) {
-                MovieListView(listId: $selectedTab)
+                MovieListView(
+                    viewModel: MovieListViewModel(repository: FirestoreGreatMovieRepository()),
+                        listId: $selectedTab)
             }
             Tab(Tabs.three.name, systemImage: Tabs.three.symbol, value: Tabs.three) {
-                MovieListView(listId: $selectedTab)
+                MovieListView(
+                    viewModel: MovieListViewModel(repository: FirestoreGreatMovieRepository()),
+                        listId: $selectedTab)
             }
             Tab(Tabs.four.name, systemImage: Tabs.four.symbol, value: Tabs.four) {
-                MovieListView(listId: $selectedTab)
+                MovieListView(
+                    viewModel: MovieListViewModel(repository: FirestoreGreatMovieRepository()),
+                        listId: $selectedTab)
             }
             Tab(Tabs.search.name, systemImage: Tabs.search.symbol, value: Tabs.search) {
                 Text("search")

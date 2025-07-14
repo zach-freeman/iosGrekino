@@ -7,25 +7,33 @@
 import SwiftUI
 
 struct MovieListView: View {
-    @StateObject private var firestoreGreatMovieRepository = FirestoreGreatMovieRepository()
+    @ObservedObject var viewModel: MovieListViewModel
     @Binding var listId: Tabs
     var body: some View {
         VStack {
             NavigationView {
                 List {
-                    ForEach(firestoreGreatMovieRepository.greatMovies) { greatMovie in
-                        VStack (alignment: .leading) {
+                    ForEach(viewModel.movies) { greatMovie in
+                        VStack(alignment: .leading) {
                             Text(greatMovie.name).font(.headline)
                             Text(greatMovie.director).font(.subheadline)
                         }
-                        
+
                     }
                 }
             }
             .navigationTitle("Great Movies")
             .onAppear {
-                firestoreGreatMovieRepository.getGreatMovieByVolume(volume: listId.id)
+                viewModel.loadMoviesForVolume(volume: listId.id)
             }
         }
     }
+}
+
+#Preview {
+    MovieListView(
+        viewModel:
+            MovieListViewModel(repository: PreviewGreatMovieRepository()),
+        listId: .constant(.one)
+    )
 }
