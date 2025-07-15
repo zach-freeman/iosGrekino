@@ -5,36 +5,61 @@
 //  Created by Zach Freeman on 7/9/25.
 //
 
-import SwiftUI
 import CoreData
+import SwiftUI
 
 struct ContentView: View {
 
     @State private var selectedTab: Tabs = .one
 
     var body: some View {
-        TabView(selection: $selectedTab){
+        TabView(selection: $selectedTab) {
             Tab(Tabs.one.name, systemImage: Tabs.one.symbol, value: Tabs.one) {
                 MovieListView(
-                    viewModel: MovieListViewModel(repository: FirestoreGreatMovieRepository()),
-                        listId: $selectedTab)
+                    viewModel: MovieListViewModel(
+                        repository: FirestoreGreatMovieRepository(),
+                        volume: $selectedTab.id
+                    ),
+                    listId: $selectedTab
+                )
             }
             Tab(Tabs.two.name, systemImage: Tabs.two.symbol, value: Tabs.two) {
                 MovieListView(
-                    viewModel: MovieListViewModel(repository: FirestoreGreatMovieRepository()),
-                        listId: $selectedTab)
+                    viewModel: MovieListViewModel(
+                        repository: FirestoreGreatMovieRepository(),
+                        volume: $selectedTab.id
+                    ),
+                    listId: $selectedTab
+                )
             }
-            Tab(Tabs.three.name, systemImage: Tabs.three.symbol, value: Tabs.three) {
+            Tab(
+                Tabs.three.name,
+                systemImage: Tabs.three.symbol,
+                value: Tabs.three
+            ) {
                 MovieListView(
-                    viewModel: MovieListViewModel(repository: FirestoreGreatMovieRepository()),
-                        listId: $selectedTab)
+                    viewModel: MovieListViewModel(
+                        repository: FirestoreGreatMovieRepository(),
+                        volume: $selectedTab.id
+                    ),
+                    listId: $selectedTab
+                )
             }
-            Tab(Tabs.four.name, systemImage: Tabs.four.symbol, value: Tabs.four) {
+            Tab(Tabs.four.name, systemImage: Tabs.four.symbol, value: Tabs.four)
+            {
                 MovieListView(
-                    viewModel: MovieListViewModel(repository: FirestoreGreatMovieRepository()),
-                        listId: $selectedTab)
+                    viewModel: MovieListViewModel(
+                        repository: FirestoreGreatMovieRepository(),
+                        volume: $selectedTab.id
+                    ),
+                    listId: $selectedTab
+                )
             }
-            Tab(Tabs.search.name, systemImage: Tabs.search.symbol, value: Tabs.search) {
+            Tab(
+                Tabs.search.name,
+                systemImage: Tabs.search.symbol,
+                value: Tabs.search
+            ) {
                 Text("search")
             }
         }
@@ -50,5 +75,8 @@ private let itemFormatter: DateFormatter = {
 }()
 
 #Preview {
-    ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    ContentView().environment(
+        \.managedObjectContext,
+        PersistenceController.preview.container.viewContext
+    )
 }
