@@ -21,10 +21,10 @@ struct MovieListState {
 class MovieListViewModel: ObservableObject {
     @Published var state : MovieListState = MovieListState()
     
-    private let repository: GreatMovieRepository
+    private let repository: GreatMovieRepositoryProtocol
     private let volume: Int
     
-    init(repository: GreatMovieRepository, volume: Int) {
+    init(repository: GreatMovieRepositoryProtocol, volume: Int) {
         self.repository = repository
         self.volume = volume
     }

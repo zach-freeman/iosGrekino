@@ -5,7 +5,7 @@
 //  Created by Zach Freeman on 7/14/25.
 //
 
-class PreviewGreatMovieRepository: GreatMovieRepository {
+class PreviewGreatMovieRepository: GreatMovieRepositoryProtocol {
     var greatMovies: [GreatMovieModel] = []
 
     init() {

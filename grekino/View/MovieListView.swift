@@ -31,7 +31,7 @@ struct MovieListView: View {
         NavigationSplitView {
             List(viewModel.state.movies) { greatMovie in
                 NavigationLink {
-                    MovieDetailView(greatMovie: greatMovie)
+                    MovieDetailView(greatMovie: greatMovie, viewModel: MovieDetailViewModel(tmdbRepository: TmdbRepository(), greatMovieModel: greatMovie))
                 } label: {
                     MovieListRowView(greatMovie: greatMovie)
                 }

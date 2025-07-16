@@ -7,7 +7,7 @@
 import Foundation
 import FirebaseFirestore
 
-class FirestoreGreatMovieRepository: GreatMovieRepository {
+class FirestoreGreatMovieRepository: GreatMovieRepositoryProtocol {
     private var db = Firestore.firestore()
     var greatMovies: [GreatMovieModel] = []
     

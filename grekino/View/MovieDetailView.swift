@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MovieDetailView: View {
     var greatMovie: GreatMovieModel
+    @ObservedObject var viewModel: MovieDetailViewModel
     var body: some View {
         VStack(alignment: .leading) {
             Spacer()
@@ -27,9 +28,15 @@ struct MovieDetailView: View {
                 .font(Font.ubuntuMedium(type: .regular))
             Spacer()
         }
+        .onAppear {
+            viewModel.send(action: .didAppear)
+        }
     }
 }
 
 #Preview {
-    MovieDetailView(greatMovie: PreviewData.getPreviewMovie0())
+    MovieDetailView(
+        greatMovie: PreviewData.getPreviewMovie0(),
+        viewModel: MovieDetailViewModel(tmdbRepository: TmdbRepository(), greatMovieModel: PreviewData.getPreviewMovie0())
+    )
 }
