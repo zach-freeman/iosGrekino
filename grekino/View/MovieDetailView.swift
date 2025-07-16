@@ -31,17 +31,5 @@ struct MovieDetailView: View {
 }
 
 #Preview {
-    let greatMovie = GreatMovieModel(
-        name: "The Godfather",
-        sortableName: "Godfather",
-        year: 1972,
-        volume: 1,
-        director: "Francis Ford Coppola",
-        isCriterion: true,
-        isWatched: true,
-        imdbId: "123456789",
-        genres: ["drama"],
-        description: "Spanning the years 1945 to 1955, a chronicle of the fictional Italian-American Corleone crime family. When organized crime family patriarch, Vito Corleone barely survives an attempt on his life, his youngest son, Michael steps in to take care of the would-be killers, launching a campaign of bloody revenge.."
-    )
-    MovieDetailView(greatMovie: greatMovie)
+    MovieDetailView(greatMovie: PreviewData.getPreviewMovie0())
 }
