@@ -38,9 +38,11 @@ private extension MovieDetailViewModel {
     func process(action: MovieDetailViewAction) {
         switch action {
         case .didAppear:
-            if greatMovieModel.description != nil && greatMovieModel.posterImageURL != nil {
-                state.description = greatMovieModel.description
-                state.posterUrl = greatMovieModel.posterImageURL
+            if greatMovieModel.description != nil && greatMovieModel.posterImageURL != nil{
+                DispatchQueue.main.async { [self] in
+                    self.state.description = greatMovieModel.description
+                    self.state.posterUrl = greatMovieModel.posterImageURL
+                }
             } else {
                 Task {
                     await fetchMovieDetails()
@@ -54,8 +56,10 @@ private extension MovieDetailViewModel {
         do {
             let imageUrlPrefix = try await tmdbRepository.getImageUrlPrefix()
             let movieResult = try await tmdbRepository.getMovieResult(imdbId: greatMovieModel.imdbId)
-            state.posterUrl = imageUrlPrefix + movieResult.posterPath!
-            state.description = movieResult.overview
+            DispatchQueue.main.async { [self] in
+                self.state.description = imageUrlPrefix + movieResult.posterPath!
+                self.state.posterUrl = movieResult.overview
+            }
         } catch {
 #if DEBUG
             print("Error fetching movie details: \(error)")

@@ -24,7 +24,7 @@ struct MovieDetailView: View {
             Text(greatMovie.director)
                 .font(Font.ubuntuMedium(type: .regular))
             Spacer()
-            Text(greatMovie.description ?? "")
+            Text(viewModel.state.description ?? "")
                 .font(Font.ubuntuMedium(type: .regular))
             Spacer()
         }
