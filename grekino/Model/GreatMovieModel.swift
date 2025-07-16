@@ -21,6 +21,7 @@ struct GreatMovieModel: Identifiable, Codable {
     var posterImageURL: String?
     var genres: [String]
     var dateWatched: String?
+    var description: String?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -37,5 +38,6 @@ struct GreatMovieModel: Identifiable, Codable {
         case posterImageURL = "PosterImageURL"
         case genres = "Genres"
         case dateWatched = "DateWatched"
+        case description = "Description"
     }
 }

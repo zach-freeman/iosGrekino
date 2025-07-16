@@ -1,31 +1,18 @@
 //
-//  MovieDetailView.swift
+//  MovieListItem.swift
 //  grekino
 //
-//  Created by Zach Freeman on 7/14/25.
+//  Created by Zach Freeman on 7/16/25.
 //
 
 import SwiftUI
 
-struct MovieDetailView: View {
+struct MovieListRowView: View {
     var greatMovie: GreatMovieModel
     var body: some View {
         VStack(alignment: .leading) {
-            Spacer()
-            Text(greatMovie.name)
-                .font(Font.ubuntuLarge(type: .regular))
-                .padding(.bottom, 8)
-            HStack {
-                Text("\(greatMovie.year.description) | DIRECTED BY")
-                    .font(Font.ubuntuSmall(type: .regular))
-            }
-            .padding(.bottom, 4)
-            Text(greatMovie.director)
-                .font(Font.ubuntuMedium(type: .regular))
-            Spacer()
-            Text(greatMovie.description ?? "")
-                .font(Font.ubuntuMedium(type: .regular))
-            Spacer()
+            Text(greatMovie.name).font(Font.ubuntuLarge(type: .regular))
+            Text(greatMovie.director).font(Font.ubuntuMedium(type: .regular))
         }
     }
 }
@@ -43,5 +30,5 @@ struct MovieDetailView: View {
         genres: ["drama"],
         description: "Spanning the years 1945 to 1955, a chronicle of the fictional Italian-American Corleone crime family. When organized crime family patriarch, Vito Corleone barely survives an attempt on his life, his youngest son, Michael steps in to take care of the would-be killers, launching a campaign of bloody revenge.."
     )
-    MovieDetailView(greatMovie: greatMovie)
+    MovieListRowView(greatMovie: greatMovie)
 }

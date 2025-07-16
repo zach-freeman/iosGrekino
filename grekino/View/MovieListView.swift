@@ -28,17 +28,19 @@ struct MovieListView: View {
     
     @ViewBuilder
     func movieListView() -> some View {
-        NavigationView {
-            List {
-                ForEach(viewModel.state.movies, id: \.id) { greatMovie in
-                    VStack(alignment: .leading) {
-                        Text(greatMovie.name).font(.headline)
-                        Text(greatMovie.director).font(.subheadline)
-                    }
+        NavigationSplitView {
+            List(viewModel.state.movies) { greatMovie in
+                NavigationLink {
+                    MovieDetailView(greatMovie: greatMovie)
+                } label: {
+                    MovieListRowView(greatMovie: greatMovie)
                 }
             }
+            .navigationTitle("Great Movies Volume \(listId.id)")
+        } detail: {
+            Text("Select a movie to see more details.")
         }
-        .navigationTitle("Great Movies")
+        
     }
 }
 

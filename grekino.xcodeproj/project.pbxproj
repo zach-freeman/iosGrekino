@@ -37,9 +37,22 @@
 		CFE310A22E1EF213009050F0 /* grekinoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = grekinoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		CF9BD48D2E28001400B50CCB /* Exceptions for "grekino" folder in "grekino" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = CFE310852E1EF212009050F0 /* grekino */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		CFE310882E1EF212009050F0 /* grekino */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				CF9BD48D2E28001400B50CCB /* Exceptions for "grekino" folder in "grekino" target */,
+			);
 			path = grekino;
 			sourceTree = "<group>";
 		};
@@ -421,6 +434,7 @@
 				DEVELOPMENT_TEAM = 7M23UJ52VC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = grekino/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -449,6 +463,7 @@
 				DEVELOPMENT_TEAM = 7M23UJ52VC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = grekino/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
