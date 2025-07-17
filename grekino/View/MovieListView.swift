@@ -52,7 +52,6 @@ struct MovieListView: View {
         } detail: {
             Text("Select a movie to see more details.")
         }
-
     }
 }
 

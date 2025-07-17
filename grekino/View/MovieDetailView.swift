@@ -11,6 +11,7 @@ import Kingfisher
 struct MovieDetailView: View {
     var greatMovie: GreatMovieModel
     @State private var viewModel: MovieDetailViewModel
+    
     init(greatMovie: GreatMovieModel, viewModel: MovieDetailViewModel) {
         self.greatMovie = greatMovie
         self.viewModel = MovieDetailViewModel(greatMovieRepository: FirestoreGreatMovieRepository(), greatMovieModel: greatMovie)
@@ -30,30 +31,45 @@ struct MovieDetailView: View {
     
     @ViewBuilder
     func movieDetailView() -> some View {
+        movieDetailGridView()
+        Text(viewModel.state.description ?? "")
+            .font(Font.ubuntuMedium(type: .regular))
         Spacer()
-        Text(greatMovie.name)
-            .font(Font.ubuntuLarge(type: .regular))
-            .padding(.bottom, 8)
+    }
+    
+    @ViewBuilder
+    func movieDetailGridView() -> some View {
         HStack {
+            movieDetailLeftSideView()
+            Spacer()
+            moviedetailRightSideView()
+        }
+    }
+    
+    @ViewBuilder
+    func movieDetailLeftSideView() -> some View {
+        VStack(alignment: .leading) {
+            Text(greatMovie.name)
+                .font(Font.ubuntuLarge(type: .regular))
+                .padding(.bottom, 8)
             Text("\(greatMovie.year.description) | DIRECTED BY")
                 .font(Font.ubuntuSmall(type: .regular))
-            Spacer()
+                .padding(.bottom, 4)
+            Text(greatMovie.director)
+        }
+    }
+    
+    func moviedetailRightSideView() -> some View {
+        VStack(alignment: .trailing) {
             if viewModel.state.posterImageUrl == Constants.noImageFound {
                 Image(systemName: "photo")
                     .imageScale(.large)
                     .foregroundColor(.gray)
             } else {
                 KFImage(URL(string: viewModel.state.posterImageUrl ?? ""))
+                    .gridCellColumns(3)
             }
-            
         }
-        .padding(.bottom, 4)
-        Text(greatMovie.director)
-            .font(Font.ubuntuMedium(type: .regular))
-        Spacer()
-        Text(viewModel.state.description ?? "")
-            .font(Font.ubuntuMedium(type: .regular))
-        Spacer()
     }
 }
 
