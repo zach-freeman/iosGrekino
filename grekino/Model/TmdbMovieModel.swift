@@ -13,12 +13,12 @@ struct TmdbMovieModel: Identifiable, Codable {
     let overview: String
     let posterPath: String?
     let mediaType: String
-    let genreIds: [Int]
-    let popularity: Double
-    let releaseDate: String
-    let video: Bool
-    let voteAverage: Double
-    let voteCount: Int
+    let genreIds: [Int]?
+    let popularity: Double?
+    let releaseDate: String?
+    let video: Bool?
+    let voteAverage: Double?
+    let voteCount: Int?
     let adult: Bool
     let backdropPath: String?
     
