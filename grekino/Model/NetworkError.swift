@@ -6,6 +6,8 @@
 //
 
 enum NetworkError: Error {
+    case decodingError
+    case noData
     case noInternet
     case badURL
     case unknown

@@ -14,7 +14,7 @@ enum MovieDetailViewAction {
 
 struct MovieDetailState {
     var isLoading: Bool = false
-    var posterUrl: String?
+    var posterImageUrl: String? = nil
     var description: String?
     var errorMessage: String?
 }
@@ -38,32 +38,57 @@ private extension MovieDetailViewModel {
     func process(action: MovieDetailViewAction) {
         switch action {
         case .didAppear:
-            if greatMovieModel.description != nil && greatMovieModel.posterImageURL != nil{
-                DispatchQueue.main.async { [self] in
-                    self.state.description = greatMovieModel.description
-                    self.state.posterUrl = greatMovieModel.posterImageURL
+            if movieHasDescription() && movieHasPosterImage()
+            {
+                DispatchQueue.main.async { [weak self] in
+                    self?.state.description = self?.greatMovieModel.description
+                    self?.state.posterImageUrl = self?.greatMovieModel.posterImageURL
                 }
             } else {
-                Task {
-                    await fetchMovieDetails()
-                }
+                fetchPosterImage()
             }
             break
         }
     }
     
-    func fetchMovieDetails() async {
-        do {
-            let imageUrlPrefix = try await tmdbRepository.getImageUrlPrefix()
-            let movieResult = try await tmdbRepository.getMovieResult(imdbId: greatMovieModel.imdbId)
-            DispatchQueue.main.async { [self] in
-                self.state.description = imageUrlPrefix + movieResult.posterPath!
-                self.state.posterUrl = movieResult.overview
+    func movieHasDescription() -> Bool {
+        let hasDescription = self.greatMovieModel.description != nil && greatMovieModel.description != ""
+        return hasDescription
+    }
+    
+    func movieHasPosterImage() -> Bool {
+        let hasPosterImage = greatMovieModel.posterImageURL != nil && greatMovieModel.posterImageURL != ""
+        return hasPosterImage
+    }
+    
+    func fetchPosterImage() {
+        tmdbRepository.getImageUrlPrefix() { (result) in
+            switch result {
+            case .success(let imageUrlPrefix):
+                self.fetchMovieDetails(imageUrlPrefix: imageUrlPrefix)
+            case .failure(let error):
+                DispatchQueue.main.async { [weak self] in
+                    self?.state.errorMessage = error.localizedDescription
+                }
             }
-        } catch {
-#if DEBUG
-            print("Error fetching movie details: \(error)")
-#endif
         }
+    }
+    
+    func fetchMovieDetails(imageUrlPrefix: String) {
+        tmdbRepository.getMovieResult(imdbId: greatMovieModel.imdbId) { (result) in
+            switch result {
+            case .success(let movieResult):
+                DispatchQueue.main.async { [weak self] in
+                    self?.state.description = movieResult.overview
+                    self?.state.posterImageUrl = imageUrlPrefix + movieResult.posterPath!
+                }
+            case .failure(let error):
+                DispatchQueue.main.async { [weak self] in
+                    self?.state.errorMessage = error.localizedDescription
+                }
+                
+            }
+        }
+        
     }
 }

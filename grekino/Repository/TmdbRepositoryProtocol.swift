@@ -6,6 +6,6 @@
 //
 
 protocol TmdbRepositoryProtocol {
-    func getImageUrlPrefix() async throws -> String
-    func getMovieResult(imdbId: String) async throws -> TmdbMovieModel
+    func getImageUrlPrefix(completion: @escaping (Result<String, NetworkError>) -> Void)
+    func getMovieResult(imdbId: String, completion: @escaping (Result<TmdbMovieModel, NetworkError>) -> Void)
 }
