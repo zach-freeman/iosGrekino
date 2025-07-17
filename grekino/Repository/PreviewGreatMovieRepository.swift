@@ -26,5 +26,9 @@ class PreviewGreatMovieRepository: GreatMovieRepositoryProtocol {
     ) {
         completion(.success(greatMovies))
     }
+    
+    func updateGreatMovie(_ greatMovie: GreatMovieModel, completion: @escaping (Result<Void, NetworkError>) -> Void) {
+        completion(.success(()))
+    }
 
 }

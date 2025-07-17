@@ -8,4 +8,5 @@
 protocol GreatMovieRepositoryProtocol {
     func getAllGreatMovies(completion: @escaping (Result<[GreatMovieModel], NetworkError>) -> Void)
     func getGreatMovieByVolume(volume: Int, completion: @escaping (Result<[GreatMovieModel], NetworkError>) -> Void)
+    func updateGreatMovie(_ greatMovie: GreatMovieModel, completion: @escaping (Result<Void, NetworkError>) -> Void)
 }

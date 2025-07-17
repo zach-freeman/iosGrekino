@@ -69,4 +69,14 @@ class FirestoreGreatMovieRepository: GreatMovieRepositoryProtocol {
         greatMovie = try! snapshot.data(as: GreatMovieModel.self)
         return greatMovie
     }
+    
+    func updateGreatMovie(_ greatMovie: GreatMovieModel, completion: @escaping (Result<Void, NetworkError>) -> Void) {
+        do {
+            try db.collection("great_movies").document(greatMovie.id!).setData(from: greatMovie)
+        } catch {
+            print ("Error updating great movie: \(error)")
+            completion(.failure(.badURL))
+            return
+        }
+    }
 }
