@@ -7,8 +7,13 @@
 import SwiftUI
 
 struct MovieListView: View {
-    @ObservedObject var viewModel: MovieListViewModel
-    @Binding var listId: Tabs
+    @State var viewModel: MovieListViewModel
+    var listId: Tabs
+    
+    init(repository: GreatMovieRepositoryProtocol, listId: Tabs) {
+        viewModel = MovieListViewModel(repository: repository, volume: listId.id)
+        self.listId = listId
+    }
     var body: some View {
         VStack {
             if viewModel.state.isLoading {
@@ -25,13 +30,21 @@ struct MovieListView: View {
             viewModel.send(action: .didAppear)
         }
     }
-    
+
     @ViewBuilder
     func movieListView() -> some View {
         NavigationSplitView {
             List(viewModel.state.movies) { greatMovie in
                 NavigationLink {
-                    MovieDetailView(greatMovie: greatMovie, viewModel: MovieDetailViewModel(tmdbRepository: TmdbRepository(), greatMovieModel: greatMovie))
+                    MovieDetailView(
+                        greatMovie: greatMovie,
+                        viewModel: MovieDetailViewModel(
+                            tmdbRepository: TmdbRepository(),
+                            greatMovieRepository:
+                                FirestoreGreatMovieRepository(),
+                            greatMovieModel: greatMovie
+                        )
+                    )
                 } label: {
                     MovieListRowView(greatMovie: greatMovie)
                 }
@@ -40,14 +53,10 @@ struct MovieListView: View {
         } detail: {
             Text("Select a movie to see more details.")
         }
-        
+
     }
 }
 
 #Preview {
-    MovieListView(
-        viewModel:
-            MovieListViewModel(repository: PreviewGreatMovieRepository(), volume: 1),
-        listId: .constant(.one)
-    )
+ MovieListView(repository: PreviewGreatMovieRepository(), listId: .one)
 }

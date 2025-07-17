@@ -16,20 +16,12 @@ struct ContentView: View {
         TabView(selection: $selectedTab) {
             Tab(Tabs.one.name, systemImage: Tabs.one.symbol, value: Tabs.one) {
                 MovieListView(
-                    viewModel: MovieListViewModel(
-                        repository: FirestoreGreatMovieRepository(),
-                        volume: $selectedTab.id
-                    ),
-                    listId: $selectedTab
+                    repository: FirestoreGreatMovieRepository(), listId: selectedTab
                 )
             }
             Tab(Tabs.two.name, systemImage: Tabs.two.symbol, value: Tabs.two) {
                 MovieListView(
-                    viewModel: MovieListViewModel(
-                        repository: FirestoreGreatMovieRepository(),
-                        volume: $selectedTab.id
-                    ),
-                    listId: $selectedTab
+                    repository: FirestoreGreatMovieRepository(), listId: selectedTab
                 )
             }
             Tab(
@@ -38,21 +30,13 @@ struct ContentView: View {
                 value: Tabs.three
             ) {
                 MovieListView(
-                    viewModel: MovieListViewModel(
-                        repository: FirestoreGreatMovieRepository(),
-                        volume: $selectedTab.id
-                    ),
-                    listId: $selectedTab
+                    repository: FirestoreGreatMovieRepository(), listId: selectedTab
                 )
             }
             Tab(Tabs.four.name, systemImage: Tabs.four.symbol, value: Tabs.four)
             {
                 MovieListView(
-                    viewModel: MovieListViewModel(
-                        repository: FirestoreGreatMovieRepository(),
-                        volume: $selectedTab.id
-                    ),
-                    listId: $selectedTab
+                    repository: FirestoreGreatMovieRepository(), listId: selectedTab
                 )
             }
             Tab(

@@ -18,8 +18,8 @@ struct MovieListState {
     var errorMessage: String? = nil
 }
 
-class MovieListViewModel: ObservableObject {
-    @Published var state : MovieListState = MovieListState()
+@Observable class MovieListViewModel {
+    var state : MovieListState = MovieListState()
     
     private let repository: GreatMovieRepositoryProtocol
     private let volume: Int

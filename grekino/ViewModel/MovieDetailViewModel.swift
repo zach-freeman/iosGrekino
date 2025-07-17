@@ -13,19 +13,21 @@ enum MovieDetailViewAction {
 }
 
 struct MovieDetailState {
-    var isLoading: Bool = false
+    var isLoading: Bool = true
     var posterImageUrl: String? = nil
     var description: String?
     var errorMessage: String?
 }
 
-class MovieDetailViewModel: ObservableObject {
-    @Published var state: MovieDetailState = MovieDetailState()
+@Observable class MovieDetailViewModel {
+    var state: MovieDetailState = MovieDetailState()
     private let tmdbRepository: TmdbRepositoryProtocol
+    private let greatMovieRepository: GreatMovieRepositoryProtocol
     private let greatMovieModel: GreatMovieModel
     
-    init(tmdbRepository: TmdbRepositoryProtocol, greatMovieModel: GreatMovieModel) {
+    init(tmdbRepository: TmdbRepositoryProtocol, greatMovieRepository: GreatMovieRepositoryProtocol, greatMovieModel: GreatMovieModel) {
         self.tmdbRepository = tmdbRepository
+        self.greatMovieRepository = greatMovieRepository
         self.greatMovieModel = greatMovieModel
     }
     
@@ -40,11 +42,18 @@ private extension MovieDetailViewModel {
         case .didAppear:
             if movieHasDescription() && movieHasPosterImage()
             {
+                print("movie has description and poster image")
                 DispatchQueue.main.async { [weak self] in
+                    self?.state.isLoading = true
                     self?.state.description = self?.greatMovieModel.description
                     self?.state.posterImageUrl = self?.greatMovieModel.posterImageURL
+                    self?.state.isLoading = false
                 }
             } else {
+                print("movie is missing some info")
+                DispatchQueue.main.async { [weak self] in
+                    self?.state.isLoading = true
+                }
                 fetchPosterImage()
             }
             break
@@ -81,14 +90,33 @@ private extension MovieDetailViewModel {
                 DispatchQueue.main.async { [weak self] in
                     self?.state.description = movieResult.overview
                     self?.state.posterImageUrl = imageUrlPrefix + movieResult.posterPath!
+                    self?.state.isLoading = false
+                    print("i'm done")
                 }
+                self.updateGreatMovie(description: movieResult.overview, posterImageUrl: imageUrlPrefix + movieResult.posterPath!)
             case .failure(let error):
                 DispatchQueue.main.async { [weak self] in
                     self?.state.errorMessage = error.localizedDescription
+                    self?.state.isLoading = false
                 }
                 
             }
         }
-        
+    }
+    
+    func updateGreatMovie(description: String? = nil, posterImageUrl: String? = nil) {
+        var greatMovieModelCopy = self.greatMovieModel
+        greatMovieModelCopy.description = description
+        greatMovieModelCopy.posterImageURL = posterImageUrl
+        self.greatMovieRepository.updateGreatMovie(greatMovieModelCopy) { (result) in
+            switch result {
+            case .success:
+                print("Great movie updated successfully")
+                break
+            case .failure(let error):
+                print("Error updating great movie: \(error)")
+            }
+            
+        }
     }
 }
