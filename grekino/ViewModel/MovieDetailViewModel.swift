@@ -21,12 +21,11 @@ struct MovieDetailState {
 
 @Observable class MovieDetailViewModel {
     var state: MovieDetailState = MovieDetailState()
-    private let tmdbRepository: TmdbRepositoryProtocol
+    private let tmdbRepository: TmdbRepository = TmdbRepository.shared
     private let greatMovieRepository: GreatMovieRepositoryProtocol
     private let greatMovieModel: GreatMovieModel
     
-    init(tmdbRepository: TmdbRepositoryProtocol, greatMovieRepository: GreatMovieRepositoryProtocol, greatMovieModel: GreatMovieModel) {
-        self.tmdbRepository = tmdbRepository
+    init(greatMovieRepository: GreatMovieRepositoryProtocol, greatMovieModel: GreatMovieModel) {
         self.greatMovieRepository = greatMovieRepository
         self.greatMovieModel = greatMovieModel
     }
@@ -78,6 +77,7 @@ private extension MovieDetailViewModel {
             case .failure(let error):
                 DispatchQueue.main.async { [weak self] in
                     self?.state.errorMessage = error.localizedDescription
+                    self?.state.isLoading = false
                 }
             }
         }
@@ -95,9 +95,18 @@ private extension MovieDetailViewModel {
                 }
                 self.updateGreatMovie(description: movieResult.overview, posterImageUrl: imageUrlPrefix + movieResult.posterPath!)
             case .failure(let error):
-                DispatchQueue.main.async { [weak self] in
-                    self?.state.errorMessage = error.localizedDescription
-                    self?.state.isLoading = false
+                if error == .noData {
+                    DispatchQueue.main.async { [weak self] in
+                        self?.state.description = "No description available"
+                        self?.state.posterImageUrl = Constants.noImageFound
+                        self?.state.isLoading = false
+                    }
+                    return
+                } else {
+                    DispatchQueue.main.async { [weak self] in
+                        self?.state.errorMessage = error.localizedDescription
+                        self?.state.isLoading = false
+                    }
                 }
                 
             }

@@ -13,7 +13,7 @@ struct MovieDetailView: View {
     @State private var viewModel: MovieDetailViewModel
     init(greatMovie: GreatMovieModel, viewModel: MovieDetailViewModel) {
         self.greatMovie = greatMovie
-        self.viewModel = MovieDetailViewModel(tmdbRepository: TmdbRepository(), greatMovieRepository: FirestoreGreatMovieRepository(), greatMovieModel: greatMovie)
+        self.viewModel = MovieDetailViewModel(greatMovieRepository: FirestoreGreatMovieRepository(), greatMovieModel: greatMovie)
     }
     var body: some View {
         VStack(alignment: .leading) {
@@ -38,7 +38,14 @@ struct MovieDetailView: View {
             Text("\(greatMovie.year.description) | DIRECTED BY")
                 .font(Font.ubuntuSmall(type: .regular))
             Spacer()
-            KFImage(URL(string: viewModel.state.posterImageUrl ?? ""))
+            if viewModel.state.posterImageUrl == Constants.noImageFound {
+                Image(systemName: "photo")
+                    .imageScale(.large)
+                    .foregroundColor(.gray)
+            } else {
+                KFImage(URL(string: viewModel.state.posterImageUrl ?? ""))
+            }
+            
         }
         .padding(.bottom, 4)
         Text(greatMovie.director)
@@ -53,6 +60,6 @@ struct MovieDetailView: View {
 #Preview {
     MovieDetailView(
         greatMovie: PreviewData.getPreviewMovie0(),
-        viewModel: MovieDetailViewModel(tmdbRepository: TmdbRepository(), greatMovieRepository: PreviewGreatMovieRepository(), greatMovieModel: PreviewData.getPreviewMovie0())
+        viewModel: MovieDetailViewModel(greatMovieRepository: PreviewGreatMovieRepository(), greatMovieModel: PreviewData.getPreviewMovie0())
     )
 }

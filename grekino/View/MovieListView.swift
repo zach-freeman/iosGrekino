@@ -39,7 +39,6 @@ struct MovieListView: View {
                     MovieDetailView(
                         greatMovie: greatMovie,
                         viewModel: MovieDetailViewModel(
-                            tmdbRepository: TmdbRepository(),
                             greatMovieRepository:
                                 FirestoreGreatMovieRepository(),
                             greatMovieModel: greatMovie
