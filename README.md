@@ -38,8 +38,8 @@ static let tmdbApiKey: String = 'YOUR API KEY'
 [swiftpm-url]: https://www.swift.org/documentation/package-manager/
 [swiftpm-img]: https://img.shields.io/badge/Swift_Package_Manager-000000?style=for-the-badge&logo=swift&logoColor=orange
 [cloud-firestore-url]: https://github.com/firebase/firebase-ios-sdk
-[cloud-firestore-img]: https://img.shields.io/badge/cloud_firestore-000000?style=for-the-badge&logo=swift&logoColor=orange
+[cloud-firestore-img]: https://img.shields.io/badge/cloud_firestore-000000?style=for-the-badge&logo=firebase&logoColor=orange
 [firebase-auth-url]: https://github.com/firebase/firebase-ios-sdk
-[firebase-auth-img]: https://img.shields.io/badge/firebase_auth-000000?style=for-the-badge&logo=swift&logoColor=orange
+[firebase-auth-img]: https://img.shields.io/badge/firebase_auth-000000?style=for-the-badge&logo=firebase&logoColor=orange
 [kingfisher-url]: https://github.com/onevcat/Kingfisher
 [kingfisher-img]: https://img.shields.io/badge/Kingisher-000000?style=for-the-badge&logo=swift&logoColor=orange
