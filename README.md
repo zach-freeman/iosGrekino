@@ -1,4 +1,4 @@
-## grekino
+## iOS Grekino
 
 Grekino is an iOS app for discovering the Great Movies.
 
