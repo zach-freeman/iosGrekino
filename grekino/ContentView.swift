@@ -13,40 +13,43 @@ struct ContentView: View {
     @State private var selectedTab: Tabs = .one
 
     var body: some View {
-        TabView(selection: $selectedTab) {
-            Tab(Tabs.one.name, systemImage: Tabs.one.symbol, value: Tabs.one) {
-                MovieListView(
-                    repository: FirestoreGreatMovieRepository(), listId: selectedTab
-                )
-            }
-            Tab(Tabs.two.name, systemImage: Tabs.two.symbol, value: Tabs.two) {
-                MovieListView(
-                    repository: FirestoreGreatMovieRepository(), listId: selectedTab
-                )
-            }
-            Tab(
-                Tabs.three.name,
-                systemImage: Tabs.three.symbol,
-                value: Tabs.three
-            ) {
-                MovieListView(
-                    repository: FirestoreGreatMovieRepository(), listId: selectedTab
-                )
-            }
-            Tab(Tabs.four.name, systemImage: Tabs.four.symbol, value: Tabs.four)
-            {
-                MovieListView(
-                    repository: FirestoreGreatMovieRepository(), listId: selectedTab
-                )
-            }
-            Tab(
-                Tabs.search.name,
-                systemImage: Tabs.search.symbol,
-                value: Tabs.search
-            ) {
-                Text("search")
+        VStack {
+            TabView(selection: $selectedTab) {
+                Tab(Tabs.one.name, systemImage: Tabs.one.symbol, value: Tabs.one) {
+                    MovieListView(
+                        repository: FirestoreGreatMovieRepository(), listId: selectedTab
+                    )
+                }
+                Tab(Tabs.two.name, systemImage: Tabs.two.symbol, value: Tabs.two) {
+                    MovieListView(
+                        repository: FirestoreGreatMovieRepository(), listId: selectedTab
+                    )
+                }
+                Tab(
+                    Tabs.three.name,
+                    systemImage: Tabs.three.symbol,
+                    value: Tabs.three
+                ) {
+                    MovieListView(
+                        repository: FirestoreGreatMovieRepository(), listId: selectedTab
+                    )
+                }
+                Tab(Tabs.four.name, systemImage: Tabs.four.symbol, value: Tabs.four)
+                {
+                    MovieListView(
+                        repository: FirestoreGreatMovieRepository(), listId: selectedTab
+                    )
+                }
+                Tab(
+                    Tabs.search.name,
+                    systemImage: Tabs.search.symbol,
+                    value: Tabs.search
+                ) {
+                    Text("search")
+                }
             }
         }
+        .edgesIgnoringSafeArea(.bottom)
     }
 
 }

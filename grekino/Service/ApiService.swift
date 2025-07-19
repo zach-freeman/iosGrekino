@@ -12,6 +12,7 @@ class ApiService {
         let url = URL(string: "\(ApiConstants.baseUrl)\(ApiConstants.configurationEndpoint)?api_key=\(ApiKeys.tmdbApiKey)")!
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             if let error = error {
+                print(error)
                 completion(.failure(.badURL))
                 return
             }
@@ -34,6 +35,7 @@ class ApiService {
         let url = URL(string: "\(ApiConstants.baseUrl)\(ApiConstants.findEndpoint)/tt\(imdbId)?external_source=imdb_id&api_key=\(ApiKeys.tmdbApiKey)")
         URLSession.shared.dataTask(with: url!) { (data, response, error) in
             if let error = error {
+                print(error)
                 completion(.failure(.badURL))
                 return
             }
