@@ -24,6 +24,7 @@ struct MovieDetailView: View {
                 movieDetailView()
             }
         }
+        .padding(.horizontal)
         .onAppear {
             viewModel.send(action: .didAppear)
         }
