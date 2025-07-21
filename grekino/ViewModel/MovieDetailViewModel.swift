@@ -10,18 +10,22 @@ import Foundation
 
 enum MovieDetailViewAction {
     case didAppear
+    case didWatchMovie
 }
 
 struct MovieDetailState {
     var isLoading: Bool = true
     var posterImageUrl: String? = nil
     var description: String?
+    var review: String = "I love this movie!"
+    var starRating: Double = 4.0
     var errorMessage: String?
 }
 
 @Observable class MovieDetailViewModel {
     var state: MovieDetailState = MovieDetailState()
     private let tmdbRepository: TmdbRepository = TmdbRepository.shared
+    private let userRepository: FirestoreUserRepository = FirestoreUserRepository.shared
     private let greatMovieRepository: GreatMovieRepositoryProtocol
     private let greatMovieModel: GreatMovieModel
     
@@ -55,6 +59,9 @@ private extension MovieDetailViewModel {
                 }
                 fetchPosterImage()
             }
+            break
+        case .didWatchMovie:
+            markMovieAsWatched()
             break
         }
     }
@@ -118,6 +125,19 @@ private extension MovieDetailViewModel {
         greatMovieModelCopy.description = description
         greatMovieModelCopy.posterImageURL = posterImageUrl
         self.greatMovieRepository.updateGreatMovie(greatMovieModelCopy) { (result) in
+            switch result {
+            case .success:
+                print("Great movie updated successfully")
+                break
+            case .failure(let error):
+                print("Error updating great movie: \(error)")
+            }
+            
+        }
+    }
+    
+    func markMovieAsWatched() {
+        userRepository.updateUserMovieData(self.greatMovieModel, review: self.state.review, starRating: self.state.starRating) { (result) in
             switch result {
             case .success:
                 print("Great movie updated successfully")

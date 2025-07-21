@@ -11,18 +11,46 @@ import Kingfisher
 struct MovieDetailView: View {
     var greatMovie: GreatMovieModel
     @State private var viewModel: MovieDetailViewModel
+    @State private var showingWatchSheet: Bool = false
     
     init(greatMovie: GreatMovieModel, viewModel: MovieDetailViewModel) {
         self.greatMovie = greatMovie
         self.viewModel = MovieDetailViewModel(greatMovieRepository: FirestoreGreatMovieRepository(), greatMovieModel: greatMovie)
     }
     var body: some View {
-        VStack(alignment: .leading) {
+        ZStack(alignment: .bottomTrailing) {
             if viewModel.state.isLoading {
                 ProgressView()
             } else {
                 movieDetailView()
             }
+            VStack {
+                Spacer()
+                Button {
+                    showingWatchSheet = true
+                } label : {
+                    Image(systemName: "eyes")
+                      //Add the following modifiers for a circular button.
+                      .font(.title.weight(.semibold))
+                      .padding()
+                      .background(Color.blue)
+                      .foregroundColor(.white)
+                      .clipShape(Circle())
+                }
+                .padding(.bottom)
+                .actionSheet(isPresented: $showingWatchSheet, content: {
+                    ActionSheet(title: Text("I Watched"), message: Text(greatMovie.name), buttons: [
+                        .default(Text("OK")) {
+                            viewModel.send(action: .didWatchMovie)
+                            showingWatchSheet = false
+                        },
+                        .default(Text("Cancel")) {
+                            showingWatchSheet = false
+                        }
+                    ])
+                })
+            }
+
         }
         .padding(.horizontal)
         .onAppear {
@@ -32,10 +60,12 @@ struct MovieDetailView: View {
     
     @ViewBuilder
     func movieDetailView() -> some View {
-        movieDetailGridView()
-        Text(viewModel.state.description ?? "")
-            .font(Font.ubuntuMedium(type: .regular))
-        Spacer()
+        VStack {
+            movieDetailGridView()
+            Text(viewModel.state.description ?? "")
+                .font(Font.ubuntuMedium(type: .regular))
+            Spacer()
+        }
     }
     
     @ViewBuilder
