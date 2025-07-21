@@ -8,15 +8,32 @@
 import SwiftUI
 import FirebaseAuth
 
-class AuthViewModel: ObservableObject {
-    @Published var user: User? = nil
-    @Published var isSignedIn: Bool = false
+@Observable class AuthViewModel {
+    var user: User? = nil
+    var userModel: UserModel? = nil
+    var isSignedIn: Bool = false
+    private let userRepository : FirestoreUserRepository = FirestoreUserRepository.shared
     
     init() {
         self.user = Auth.auth().currentUser
         self.isSignedIn = self.user != nil
+        if self.isSignedIn {
+            fetchUserModel()
+        }
+        
     }
     
+    func fetchUserModel() {
+        guard let uid = self.user?.uid else { return }
+        self.userRepository.getUser(userId: uid) { (result) in
+            switch result {
+            case .success(let userModel):
+                self.userModel = userModel
+            case .failure(let error):
+                print("Error fetching user: \(error)")
+            }
+        }
+    }
     func signUp(email: String, password: String) {
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if let error = error {

@@ -45,4 +45,22 @@ struct PreviewData {
             description: "When the seaside community of Amity finds itself under attack by a dangerous great white shark, the town's chief of police, a young marine biologist, and a grizzled hunter embark on a desperate quest to destroy the beast before it strikes again."
         )
     }
+    
+    static func getPreviewUserModel () -> UserModel {
+        var movieData: [MovieDataModel] = []
+        let movieDataModel = MovieDataModel(
+            movieID: "1",
+            dateWatched: "2024-01-01",
+            isWatched: true,
+            review: "This was a great movie",
+            starRating: 3.3,
+        )
+        movieData.append(movieDataModel)
+        return UserModel(
+            id: "1",
+            displayName: "Zach Freeman",
+            email: "zach@freeman.com",
+            movieData: movieData
+        )
+    }
 }
