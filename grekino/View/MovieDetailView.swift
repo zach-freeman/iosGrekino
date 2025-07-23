@@ -5,17 +5,23 @@
 //  Created by Zach Freeman on 7/14/25.
 //
 
-import SwiftUI
 import Kingfisher
+import SwiftUI
 
 struct MovieDetailView: View {
+    @Environment(\.dismiss) var dismiss
     var greatMovie: GreatMovieModel
     @State private var viewModel: MovieDetailViewModel
     @State private var showingWatchSheet: Bool = false
-    
+    @Binding var rootIsPresent: Bool
+
     init(greatMovie: GreatMovieModel, viewModel: MovieDetailViewModel) {
         self.greatMovie = greatMovie
-        self.viewModel = MovieDetailViewModel(greatMovieRepository: FirestoreGreatMovieRepository(), greatMovieModel: greatMovie)
+        self.viewModel = MovieDetailViewModel(
+            greatMovieRepository: FirestoreGreatMovieRepository(),
+            greatMovieModel: greatMovie
+        )
+        _rootIsPresent = .constant(false)
     }
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
@@ -28,27 +34,18 @@ struct MovieDetailView: View {
                 Spacer()
                 Button {
                     showingWatchSheet = true
-                } label : {
+                } label: {
                     Image(systemName: "eyes")
-                      //Add the following modifiers for a circular button.
-                      .font(.title.weight(.semibold))
-                      .padding()
-                      .background(Color.blue)
-                      .foregroundColor(.white)
-                      .clipShape(Circle())
+                        .font(.title.weight(.semibold))
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .clipShape(Circle())
                 }
                 .padding(.bottom)
-                .actionSheet(isPresented: $showingWatchSheet, content: {
-                    ActionSheet(title: Text("I Watched"), message: Text(greatMovie.name), buttons: [
-                        .default(Text("OK")) {
-                            viewModel.send(action: .didWatchMovie)
-                            showingWatchSheet = false
-                        },
-                        .default(Text("Cancel")) {
-                            showingWatchSheet = false
-                        }
-                    ])
-                })
+                .fullScreenCover(isPresented: $showingWatchSheet) {
+                    MovieWatchDataView(greatMovie: greatMovie)
+                }
             }
 
         }
@@ -57,7 +54,7 @@ struct MovieDetailView: View {
             viewModel.send(action: .didAppear)
         }
     }
-    
+
     @ViewBuilder
     func movieDetailView() -> some View {
         VStack {
@@ -67,7 +64,7 @@ struct MovieDetailView: View {
             Spacer()
         }
     }
-    
+
     @ViewBuilder
     func movieDetailGridView() -> some View {
         HStack {
@@ -76,7 +73,7 @@ struct MovieDetailView: View {
             moviedetailRightSideView()
         }
     }
-    
+
     @ViewBuilder
     func movieDetailLeftSideView() -> some View {
         VStack(alignment: .leading) {
@@ -89,7 +86,7 @@ struct MovieDetailView: View {
             Text(greatMovie.director)
         }
     }
-    
+
     func moviedetailRightSideView() -> some View {
         VStack(alignment: .trailing) {
             if viewModel.state.posterImageUrl == Constants.noImageFound {
@@ -98,7 +95,6 @@ struct MovieDetailView: View {
                     .foregroundColor(.gray)
             } else {
                 KFImage(URL(string: viewModel.state.posterImageUrl ?? ""))
-                    .gridCellColumns(3)
             }
         }
     }
@@ -107,6 +103,9 @@ struct MovieDetailView: View {
 #Preview {
     MovieDetailView(
         greatMovie: PreviewData.getPreviewMovie0(),
-        viewModel: MovieDetailViewModel(greatMovieRepository: PreviewGreatMovieRepository(), greatMovieModel: PreviewData.getPreviewMovie0())
+        viewModel: MovieDetailViewModel(
+            greatMovieRepository: PreviewGreatMovieRepository(),
+            greatMovieModel: PreviewData.getPreviewMovie0()
+        )
     )
 }
