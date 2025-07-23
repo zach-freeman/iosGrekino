@@ -110,6 +110,13 @@ struct MovieWatchDataView: View {
                         .foregroundColor(.white)
                         .clipShape(Circle())
                 }
+                
+                Spacer()
+            }
+            .padding(.bottom, 10)
+            HStack {
+                Text("Review")
+                Text("Add a review...")
                 Spacer()
             }
             Spacer()
