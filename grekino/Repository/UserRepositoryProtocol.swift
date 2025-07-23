@@ -10,4 +10,5 @@ protocol UserRepositoryProtocol {
     func addUser(user: UserModel, completion: @escaping (Result<Void, NetworkError>) -> Void)
     func updateUser(_ user: UserModel, completion: @escaping (Result<Void, NetworkError>) -> Void)
     func updateUserMovieData(_ greatMovie: GreatMovieModel, review: String, starRating: Double, completion: @escaping (Result<Void, NetworkError>) -> Void)
+    func getMovieData(forGreatMovieId: String, completion: @escaping (Result<MovieDataModel, NetworkError>) -> Void)
 }

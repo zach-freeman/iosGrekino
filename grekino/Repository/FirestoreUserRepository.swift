@@ -8,8 +8,6 @@ import Foundation
 import FirebaseFirestore
 
 class FirestoreUserRepository: UserRepositoryProtocol {
-
-    
     private var db = Firestore.firestore()
     var user: UserModel?
     
@@ -85,5 +83,25 @@ class FirestoreUserRepository: UserRepositoryProtocol {
             return false
         }
         return true
+    }
+    
+    func getMovieData(forGreatMovieId greatMovieId: String, completion: @escaping (Result<MovieDataModel, NetworkError>) -> Void) {
+        guard user != nil, let user:UserModel = user else {
+            print("User not found")
+            completion(.failure(.noData))
+            return
+        }
+        getUser(userId: user.id ?? "") { result in
+            switch result {
+            case .success(let user):
+                if let movieData = user.movieData.first(where: { $0.movieID == greatMovieId }) {
+                    completion(.success(movieData))
+                } else {
+                    completion(.failure(.noData))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
     }
 }
