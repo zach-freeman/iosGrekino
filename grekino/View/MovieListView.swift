@@ -45,7 +45,7 @@ struct MovieListView: View {
                         )
                     )
                 } label: {
-                    MovieListRowView(greatMovie: greatMovie)
+                    MovieListRowView(greatMovieDetail: greatMovie)
                 }
             }
             .navigationTitle("Great Movies Volume \(listId.id)")

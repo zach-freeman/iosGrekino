@@ -9,11 +9,11 @@ import Kingfisher
 
 struct MovieWatchDataView: View {
     @Environment(\.dismiss) var dismiss
-    var greatMovie: GreatMovieModel
+    var greatMovie: GreatMovieDetailModel
     @State private var viewModel: MovieWatchDataViewModel
     @Binding var rootIsPresented: Bool
     
-    init(greatMovie: GreatMovieModel) {
+    init(greatMovie: GreatMovieDetailModel) {
         self.greatMovie = greatMovie
         self.viewModel = MovieWatchDataViewModel(greatMovieModel: greatMovie)
         self._rootIsPresented = .constant(false)
@@ -66,12 +66,12 @@ struct MovieWatchDataView: View {
     @ViewBuilder
     func movieInfoRow() -> some View {
         HStack(alignment: .center) {
-            if greatMovie.posterImageURL == Constants.noImageFound {
+            if greatMovie.posterImageUrl == Constants.noImageFound {
                 Image(systemName: "photo")
                     .imageScale(.small)
                     .foregroundColor(.gray)
             } else {
-                KFImage(URL(string: greatMovie.posterImageURL ?? ""))
+                KFImage(URL(string: greatMovie.posterImageUrl ?? ""))
                     .resizable()
                     .frame(width: 45, height: 45)
             }
@@ -157,5 +157,5 @@ struct MovieWatchDataView: View {
 }
 
 #Preview {
- MovieWatchDataView(greatMovie: PreviewData.getPreviewMovie0())
+ MovieWatchDataView(greatMovie: PreviewData.getPreviewMovieDetail0())
 }

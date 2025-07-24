@@ -47,13 +47,10 @@ class FirestoreUserRepository: UserRepositoryProtocol {
         print("implement me")
     }
     
-    func updateUserMovieData(_ greatMovie: GreatMovieModel, review: String, starRating: Double, completion: @escaping (Result<Void, NetworkError>) -> Void) {
+    func updateUserMovieData(_ greatMovieId: String, review: String, starRating: Double, completion: @escaping (Result<Void, NetworkError>) -> Void) {
         guard user != nil, let user:UserModel = user else {
             print("User not found")
             completion(.failure(.noData))
-            return
-        }
-        guard let greatMovieId = greatMovie.id else {
             return
         }
         let userMovieData = user.movieData.first(where: { $0.movieID == greatMovieId })

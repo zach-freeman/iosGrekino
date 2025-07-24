@@ -10,12 +10,12 @@ import SwiftUI
 
 struct MovieDetailView: View {
     @Environment(\.dismiss) var dismiss
-    var greatMovie: GreatMovieModel
+    var greatMovie: GreatMovieDetailModel
     @State private var viewModel: MovieDetailViewModel
     @State private var showingWatchSheet: Bool = false
     @Binding var rootIsPresent: Bool
 
-    init(greatMovie: GreatMovieModel, viewModel: MovieDetailViewModel) {
+    init(greatMovie: GreatMovieDetailModel, viewModel: MovieDetailViewModel) {
         self.greatMovie = greatMovie
         self.viewModel = MovieDetailViewModel(
             greatMovieRepository: FirestoreGreatMovieRepository(),
@@ -102,10 +102,10 @@ struct MovieDetailView: View {
 
 #Preview {
     MovieDetailView(
-        greatMovie: PreviewData.getPreviewMovie0(),
+        greatMovie: PreviewData.getPreviewMovieDetail0(),
         viewModel: MovieDetailViewModel(
             greatMovieRepository: PreviewGreatMovieRepository(),
-            greatMovieModel: PreviewData.getPreviewMovie0()
+            greatMovieModel: PreviewData.getPreviewMovieDetail0()
         )
     )
 }

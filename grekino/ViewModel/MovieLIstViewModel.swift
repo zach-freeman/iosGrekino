@@ -14,18 +14,18 @@ enum MovieListViewAction {
 
 struct MovieListState {
     var isLoading: Bool = false
-    var movies: [GreatMovieModel] = []
+    var movies: [GreatMovieDetailModel] = []
     var errorMessage: String? = nil
 }
 
 @Observable class MovieListViewModel {
     var state : MovieListState = MovieListState()
     
-    private let repository: GreatMovieRepositoryProtocol
+    private let greatMovieManager: GreatMovieManagerProtocol
     private let volume: Int
     
     init(repository: GreatMovieRepositoryProtocol, volume: Int) {
-        self.repository = repository
+        self.greatMovieManager = GreatMovieManager(greatMovieRepository: repository)
         self.volume = volume
     }
     
@@ -44,7 +44,7 @@ private extension MovieListViewModel {
     
     func loadMoviesForVolume(volume: Int) {
         self.state.isLoading = true
-        repository.getGreatMovieByVolume(volume: volume) { [weak self] result in
+        greatMovieManager.getGreatMoviesByVolume(volume: volume) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let movies):

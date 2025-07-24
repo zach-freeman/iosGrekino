@@ -8,15 +8,22 @@
 import SwiftUI
 
 struct MovieListRowView: View {
-    var greatMovie: GreatMovieModel
+    var greatMovieDetail: GreatMovieDetailModel
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(greatMovie.name).font(Font.ubuntuLarge(type: .regular))
-            Text(greatMovie.director).font(Font.ubuntuMedium(type: .regular))
+        HStack {
+            VStack(alignment: .leading) {
+                Text(greatMovieDetail.name).font(Font.ubuntuLarge(type: .regular))
+                Text(greatMovieDetail.director).font(Font.ubuntuMedium(type: .regular))
+            }
+            Spacer()
+            if greatMovieDetail.isWatched {
+                Image(systemName: "checkmark.circle.fill")
+                    .foregroundColor(.green)
+            }
         }
     }
 }
 
 #Preview {
-    MovieListRowView(greatMovie: PreviewData.getPreviewMovie0())
+    MovieListRowView(greatMovieDetail: PreviewData.getPreviewMovieDetail0())
 }

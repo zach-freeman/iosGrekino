@@ -14,13 +14,9 @@ struct GreatMovieModel: Identifiable, Codable {
     var volume: Int
     var director: String
     var isCriterion: Bool
-    var isWatched: Bool
-    var userReview: String?
-    var userStarRating: Int?
     var imdbId: String
-    var posterImageURL: String?
+    var posterImageUrl: String?
     var genres: [String]
-    var dateWatched: String?
     var description: String?
     
     enum CodingKeys: String, CodingKey {
@@ -31,13 +27,26 @@ struct GreatMovieModel: Identifiable, Codable {
         case volume = "Volume"
         case director = "Director"
         case isCriterion = "IsCriterion"
-        case isWatched = "IsWatched"
-        case userReview = "UserReview"
-        case userStarRating = "UserStarRating"
         case imdbId = "ImdbId"
-        case posterImageURL = "PosterImageURL"
+        case posterImageUrl = "PosterImageUrl"
         case genres = "Genres"
-        case dateWatched = "DateWatched"
         case description = "Description"
     }
+}
+
+extension GreatMovieModel {
+    init(greatMovieDetailModel: GreatMovieDetailModel) {
+        id = greatMovieDetailModel.id
+        name = greatMovieDetailModel.name
+        sortableName = greatMovieDetailModel.sortableName
+        year = greatMovieDetailModel.year
+        volume = greatMovieDetailModel.volume
+        director = greatMovieDetailModel.director
+        isCriterion = greatMovieDetailModel.isCriterion
+        imdbId = greatMovieDetailModel.imdbId
+        posterImageUrl = greatMovieDetailModel.posterImageUrl
+        genres = greatMovieDetailModel.genres
+        description = greatMovieDetailModel.description ?? ""
+    }
+    
 }

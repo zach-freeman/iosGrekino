@@ -25,6 +25,7 @@ import FirebaseAuth
     
     func fetchUserModel() {
         guard let uid = self.user?.uid else { return }
+        UserDefaults.standard.setUserId(value: uid)
         self.userRepository.getUser(userId: uid) { (result) in
             switch result {
             case .success(let userModel):

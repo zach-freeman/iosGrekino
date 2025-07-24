@@ -28,9 +28,9 @@ struct MovieWatchDataState {
 @Observable class MovieWatchDataViewModel {
     var state: MovieWatchDataState = MovieWatchDataState()
     private let userRepository: FirestoreUserRepository = FirestoreUserRepository.shared
-    private let greatMovie: GreatMovieModel
+    private let greatMovie: GreatMovieDetailModel
     
-    init(greatMovieModel: GreatMovieModel) {
+    init(greatMovieModel: GreatMovieDetailModel) {
         self.greatMovie = greatMovieModel
     }
     
@@ -76,7 +76,8 @@ private extension MovieWatchDataViewModel {
     }
     
     func updateMovieData() {
-        userRepository.updateUserMovieData(greatMovie, review: self.state.reviewText, starRating: self.state.numberOfStars.doubleValue) { [weak self] result in
+        guard let greatMovieId = self.greatMovie.id else { return }
+        userRepository.updateUserMovieData(greatMovieId, review: self.state.reviewText, starRating: self.state.numberOfStars.doubleValue) { [weak self] result in
             switch result {
             case .success:
                 print("successfully updated movie data")

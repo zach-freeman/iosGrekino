@@ -27,11 +27,11 @@ struct MovieDetailState {
     private let tmdbRepository: TmdbRepository = TmdbRepository.shared
     private let userRepository: FirestoreUserRepository = FirestoreUserRepository.shared
     private let greatMovieRepository: GreatMovieRepositoryProtocol
-    private let greatMovieModel: GreatMovieModel
+    private let greatMovieDetailModel: GreatMovieDetailModel
     
-    init(greatMovieRepository: GreatMovieRepositoryProtocol, greatMovieModel: GreatMovieModel) {
+    init(greatMovieRepository: GreatMovieRepositoryProtocol, greatMovieModel: GreatMovieDetailModel) {
         self.greatMovieRepository = greatMovieRepository
-        self.greatMovieModel = greatMovieModel
+        self.greatMovieDetailModel = greatMovieModel
     }
     
     func send(action: MovieDetailViewAction) {
@@ -48,8 +48,8 @@ private extension MovieDetailViewModel {
                 print("movie has description and poster image")
                 DispatchQueue.main.async { [weak self] in
                     self?.state.isLoading = true
-                    self?.state.description = self?.greatMovieModel.description
-                    self?.state.posterImageUrl = self?.greatMovieModel.posterImageURL
+                    self?.state.description = self?.greatMovieDetailModel.description
+                    self?.state.posterImageUrl = self?.greatMovieDetailModel.posterImageUrl
                     self?.state.isLoading = false
                 }
             } else {
@@ -67,12 +67,12 @@ private extension MovieDetailViewModel {
     }
     
     func movieHasDescription() -> Bool {
-        let hasDescription = self.greatMovieModel.description != nil && greatMovieModel.description != ""
+        let hasDescription = self.greatMovieDetailModel.description != nil && greatMovieDetailModel.description != ""
         return hasDescription
     }
     
     func movieHasPosterImage() -> Bool {
-        let hasPosterImage = greatMovieModel.posterImageURL != nil && greatMovieModel.posterImageURL != ""
+        let hasPosterImage = greatMovieDetailModel.posterImageUrl != nil && greatMovieDetailModel.posterImageUrl != ""
         return hasPosterImage
     }
     
@@ -91,7 +91,7 @@ private extension MovieDetailViewModel {
     }
     
     func fetchMovieDetails(imageUrlPrefix: String) {
-        tmdbRepository.getMovieResult(imdbId: greatMovieModel.imdbId) { (result) in
+        tmdbRepository.getMovieResult(imdbId: greatMovieDetailModel.imdbId) { (result) in
             switch result {
             case .success(let movieResult):
                 DispatchQueue.main.async { [weak self] in
@@ -121,9 +121,9 @@ private extension MovieDetailViewModel {
     }
     
     func updateGreatMovie(description: String? = nil, posterImageUrl: String? = nil) {
-        var greatMovieModelCopy = self.greatMovieModel
-        greatMovieModelCopy.description = description
-        greatMovieModelCopy.posterImageURL = posterImageUrl
+        var greatMovieModelCopy = GreatMovieModel(greatMovieDetailModel: greatMovieDetailModel)
+        greatMovieModelCopy.description = description ?? greatMovieModelCopy.description
+        greatMovieModelCopy.posterImageUrl = posterImageUrl ?? greatMovieModelCopy.posterImageUrl
         self.greatMovieRepository.updateGreatMovie(greatMovieModelCopy) { (result) in
             switch result {
             case .success:
@@ -137,7 +137,7 @@ private extension MovieDetailViewModel {
     }
     
     func markMovieAsWatched() {
-        userRepository.updateUserMovieData(self.greatMovieModel, review: self.state.review, starRating: self.state.starRating) { (result) in
+        userRepository.updateUserMovieData(self.greatMovieDetailModel.imdbId, review: self.state.review, starRating: self.state.starRating) { (result) in
             switch result {
             case .success:
                 print("Great movie updated successfully")
