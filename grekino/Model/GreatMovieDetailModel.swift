@@ -5,10 +5,9 @@
 //  Created by Zach Freeman on 7/24/25.
 //
 
-import FirebaseFirestore
 
 struct GreatMovieDetailModel: Identifiable, Codable {
-    @DocumentID var id: String?
+    var id: String?
     var name: String
     var sortableName: String
     var year: Int

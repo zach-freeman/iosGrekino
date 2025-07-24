@@ -44,6 +44,12 @@ struct MovieListView: View {
                             greatMovieModel: greatMovie
                         )
                     )
+                    .onAppear {
+                        viewModel.send(action: .didDetailViewAppear)
+                    }
+                    .onDisappear {
+                        viewModel.send(action: .didDetailViewDisappear)
+                    }
                 } label: {
                     MovieListRowView(greatMovieDetail: greatMovie)
                 }

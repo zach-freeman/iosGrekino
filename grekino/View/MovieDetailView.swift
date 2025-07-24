@@ -13,6 +13,7 @@ struct MovieDetailView: View {
     var greatMovie: GreatMovieDetailModel
     @State private var viewModel: MovieDetailViewModel
     @State private var showingWatchSheet: Bool = false
+    @State private var showingWatchInfo: Bool = false
     @Binding var rootIsPresent: Bool
 
     init(greatMovie: GreatMovieDetailModel, viewModel: MovieDetailViewModel) {
@@ -30,21 +31,24 @@ struct MovieDetailView: View {
             } else {
                 movieDetailView()
             }
-            VStack {
-                Spacer()
-                Button {
-                    showingWatchSheet = true
-                } label: {
-                    Image(systemName: "eyes")
-                        .font(.title.weight(.semibold))
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .clipShape(Circle())
-                }
-                .padding(.bottom)
-                .fullScreenCover(isPresented: $showingWatchSheet) {
-                    MovieWatchDataView(greatMovie: greatMovie)
+               
+            if !greatMovie.isWatched {
+                VStack {
+                    Spacer()
+                    Button {
+                        showingWatchSheet = true
+                    } label: {
+                        Image(systemName: "eyes")
+                            .font(.title.weight(.semibold))
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .clipShape(Circle())
+                    }
+                    .padding(.bottom)
+                    .fullScreenCover(isPresented: $showingWatchSheet) {
+                        MovieWatchDataView(greatMovie: greatMovie)
+                    }
                 }
             }
 
@@ -53,6 +57,32 @@ struct MovieDetailView: View {
         .onAppear {
             viewModel.send(action: .didAppear)
         }
+        .sheet(isPresented: $showingWatchInfo) {
+            VStack {
+                Text(greatMovie.name)
+                    .font(Font.ubuntuMedium(type: .bold))
+                Text(greatMovie.year.description)
+                    .font(Font.ubuntuSmall(type: .regular))
+                Divider()
+                Image(systemName: "eye.fill")
+                    .font(.body.weight(.semibold))
+                    .padding()
+                    .background(Color.green)
+                    .foregroundColor(.white)
+                    .clipShape(Circle())
+                Text("Watched")
+                    .font(Font.ubuntuSmall(type: .regular))
+                Divider()
+                Text("Rated")
+                    .font(Font.ubuntuSmall(type: .regular))
+                Spacer()
+                Button("Done",
+                       action: { showingWatchInfo.toggle()})
+            }
+            .padding(24)
+            .presentationDetents([.fraction(0.35)])
+        }
+        
     }
 
     @ViewBuilder
@@ -61,6 +91,26 @@ struct MovieDetailView: View {
             movieDetailGridView()
             Text(viewModel.state.description ?? "")
                 .font(Font.ubuntuMedium(type: .regular))
+                .padding(.bottom, 8)
+            if greatMovie.isWatched {
+                HStack(alignment: .center) {
+                    Text("You watched this movie!")
+                        .font(Font.ubuntuSmall(type: .regular))
+                    Image(systemName: "checkmark")
+                        .foregroundColor(.green)
+                    Spacer()
+                    Button(action: {
+                        showingWatchInfo.toggle()
+                    }) {
+                        Label("View Watch Details", systemImage: "ellipsis.circle")
+                    }
+                    .padding(.horizontal, 10)
+                    .foregroundStyle(.secondary)
+                    .labelStyle(.iconOnly)
+                }
+                .frame(maxWidth: .infinity, maxHeight: 50)
+                .background(Color.gray.opacity(0.2))
+            }
             Spacer()
         }
     }

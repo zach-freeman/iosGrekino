@@ -10,11 +10,14 @@ import Foundation
 
 enum MovieListViewAction {
     case didAppear
+    case didDetailViewAppear
+    case didDetailViewDisappear
 }
 
 struct MovieListState {
     var isLoading: Bool = false
     var movies: [GreatMovieDetailModel] = []
+    var didDetailViewAppear: Bool = false
     var errorMessage: String? = nil
 }
 
@@ -38,6 +41,13 @@ private extension MovieListViewModel {
     func process(action: MovieListViewAction) {
         switch action {
         case .didAppear:
+            print("Did Appear")
+            loadMoviesForVolume(volume: volume)
+        case .didDetailViewAppear:
+            print("detail view appeared")
+            self.state.didDetailViewAppear = true
+        case .didDetailViewDisappear:
+            print("detail view disappeared")
             loadMoviesForVolume(volume: volume)
         }
     }

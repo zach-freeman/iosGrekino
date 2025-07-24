@@ -25,12 +25,13 @@ public class GreatMovieManager : GreatMovieManagerProtocol {
                     self.userRepository.getUser(userId: userId) { result in
                         switch result {
                         case .success(let user):
+                            self.greatMovieDetails.removeAll()
                             for greatMovie in greatMovies {
                                 if let userMovieData = user.movieData.first(where: { $0.movieID == greatMovie.id }) {
-                                    var greatMovieDetailModel = GreatMovieDetailModel(greatMovie: greatMovie, userMovieData: userMovieData)
+                                    let greatMovieDetailModel = GreatMovieDetailModel(greatMovie: greatMovie, userMovieData: userMovieData)
                                     self.greatMovieDetails.append(greatMovieDetailModel)
                                 } else {
-                                    var greatMovieDetailModel = GreatMovieDetailModel(greatMovie: greatMovie, userMovieData: nil)
+                                    let greatMovieDetailModel = GreatMovieDetailModel(greatMovie: greatMovie, userMovieData: nil)
                                     self.greatMovieDetails.append(greatMovieDetailModel)
                                 }
                             }

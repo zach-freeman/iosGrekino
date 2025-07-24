@@ -47,7 +47,7 @@ class FirestoreUserRepository: UserRepositoryProtocol {
         print("implement me")
     }
     
-    func updateUserMovieData(_ greatMovieId: String, review: String, starRating: Double, completion: @escaping (Result<Void, NetworkError>) -> Void) {
+    func updateUserMovieData(_ greatMovieId: String, dateWatched: String, review: String, starRating: Double, completion: @escaping (Result<Void, NetworkError>) -> Void) {
         guard user != nil, let user:UserModel = user else {
             print("User not found")
             completion(.failure(.noData))
@@ -57,7 +57,7 @@ class FirestoreUserRepository: UserRepositoryProtocol {
         if userMovieData != nil {
             self.user?.movieData.removeAll(where: { $0.movieID == greatMovieId })
         }
-        let movieData: MovieDataModel = MovieDataModel(movieID: greatMovieId, dateWatched: Date().today(format: "yyyy-MM-dd"), isWatched: true, review: review, starRating: starRating)
+        let movieData: MovieDataModel = MovieDataModel(movieID: greatMovieId, dateWatched: dateWatched, isWatched: true, review: review, starRating: starRating)
         let isUserMovieUpdated = updateMovieData(movieData)
         if isUserMovieUpdated {
             completion(.success(()))

@@ -12,6 +12,7 @@ struct MovieWatchDataView: View {
     var greatMovie: GreatMovieDetailModel
     @State private var viewModel: MovieWatchDataViewModel
     @Binding var rootIsPresented: Bool
+    @State private var watchDate: Date = Date()
     
     init(greatMovie: GreatMovieDetailModel) {
         self.greatMovie = greatMovie
@@ -56,6 +57,7 @@ struct MovieWatchDataView: View {
             Spacer()
             Button {
                 viewModel.send(action: .didSave)
+                dismiss()
             } label : {
                 Text("Save")
                     .font(Font.ubuntuSmall(type: .regular))
@@ -88,11 +90,13 @@ struct MovieWatchDataView: View {
     @ViewBuilder
     func dateWatchedRow() -> some View {
         HStack {
-            Text("Date Watched:")
-                .font(Font.ubuntu(type: Font.FontType.regular, size: Font.FontSize.medium))
-            Spacer()
-            Text(viewModel.state.dateWatched)
-                .font(Font.ubuntu(type: Font.FontType.regular, size: Font.FontSize.medium))
+            DatePicker(selection: $watchDate, displayedComponents: .date) {
+                Text("Date Watched:")
+                    .font(Font.ubuntu(type: Font.FontType.regular, size: Font.FontSize.medium))
+            }.onChange(of: watchDate) { oldValue, newValue in
+                self.viewModel.setDateWatched(newValue)
+                self.viewModel.send(action: .didUpdateDateWatched)
+            }
         }
         .padding(.bottom, 10)
     }

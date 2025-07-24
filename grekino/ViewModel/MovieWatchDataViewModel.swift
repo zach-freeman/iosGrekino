@@ -7,7 +7,6 @@
 import Combine
 import Foundation
 
-
 enum MovieWatchDataViewAction {
     case didAppear
     case didRateOneStar
@@ -15,6 +14,7 @@ enum MovieWatchDataViewAction {
     case didRateThreeStars
     case didRateFourStars
     case didSave
+    case didUpdateDateWatched
 }
 
 struct MovieWatchDataState {
@@ -23,24 +23,33 @@ struct MovieWatchDataState {
     var isMovieWatched: Bool = false
     var reviewText: String = ""
     var dateWatched: String = Date().today(format: "MMM dd, yyyy")
+    var dateWatchedDate: Date = Date()
 }
 
 @Observable class MovieWatchDataViewModel {
     var state: MovieWatchDataState = MovieWatchDataState()
-    private let userRepository: FirestoreUserRepository = FirestoreUserRepository.shared
+    private let userRepository: FirestoreUserRepository =
+        FirestoreUserRepository.shared
     private let greatMovie: GreatMovieDetailModel
-    
+
     init(greatMovieModel: GreatMovieDetailModel) {
         self.greatMovie = greatMovieModel
     }
-    
+
+    func setDateWatched(_ date: Date) {
+        self.state.dateWatchedDate = date
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        self.state.dateWatched = formatter.string(from: date)
+    }
+
     func send(action: MovieWatchDataViewAction) {
         process(action: action)
     }
 }
 
-private extension MovieWatchDataViewModel {
-    func process(action: MovieWatchDataViewAction) {
+extension MovieWatchDataViewModel {
+    fileprivate func process(action: MovieWatchDataViewAction) {
         switch action {
         case .didAppear:
             initializeMovieData()
@@ -58,11 +67,15 @@ private extension MovieWatchDataViewModel {
             self.state.numberOfStars = 4
         case .didSave:
             updateMovieData()
+        case .didUpdateDateWatched:
+
+            print(self.state.dateWatched)
         }
     }
-    
-    func initializeMovieData() {
-        userRepository.getMovieData(forGreatMovieId: self.greatMovie.id ?? "") { [weak self] result in
+
+    fileprivate func initializeMovieData() {
+        userRepository.getMovieData(forGreatMovieId: self.greatMovie.id ?? "") {
+            [weak self] result in
             switch result {
             case .success(let movieData):
                 self?.state.isMovieWatched = movieData.isWatched
@@ -74,10 +87,15 @@ private extension MovieWatchDataViewModel {
             }
         }
     }
-    
-    func updateMovieData() {
+
+    fileprivate func updateMovieData() {
         guard let greatMovieId = self.greatMovie.id else { return }
-        userRepository.updateUserMovieData(greatMovieId, review: self.state.reviewText, starRating: self.state.numberOfStars.doubleValue) { [weak self] result in
+        userRepository.updateUserMovieData(
+            greatMovieId,
+            dateWatched: self.state.dateWatched,
+            review: self.state.reviewText,
+            starRating: self.state.numberOfStars.doubleValue
+        ) { [weak self] result in
             switch result {
             case .success:
                 print("successfully updated movie data")
@@ -87,4 +105,3 @@ private extension MovieWatchDataViewModel {
         }
     }
 }
-

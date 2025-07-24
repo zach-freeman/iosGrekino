@@ -17,6 +17,7 @@ struct MovieDetailState {
     var isLoading: Bool = true
     var posterImageUrl: String? = nil
     var description: String?
+    var dateWatched: String = Date().today()
     var review: String = "I love this movie!"
     var starRating: Double = 4.0
     var errorMessage: String?
@@ -137,7 +138,7 @@ private extension MovieDetailViewModel {
     }
     
     func markMovieAsWatched() {
-        userRepository.updateUserMovieData(self.greatMovieDetailModel.imdbId, review: self.state.review, starRating: self.state.starRating) { (result) in
+        userRepository.updateUserMovieData(self.greatMovieDetailModel.imdbId, dateWatched: self.state.dateWatched, review: self.state.review, starRating: self.state.starRating) { (result) in
             switch result {
             case .success:
                 print("Great movie updated successfully")
