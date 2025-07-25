@@ -31,7 +31,7 @@ struct MovieDetailView: View {
             } else {
                 movieDetailView()
             }
-               
+
             if !greatMovie.isWatched {
                 VStack {
                     Spacer()
@@ -58,31 +58,14 @@ struct MovieDetailView: View {
             viewModel.send(action: .didAppear)
         }
         .sheet(isPresented: $showingWatchInfo) {
-            VStack {
-                Text(greatMovie.name)
-                    .font(Font.ubuntuMedium(type: .bold))
-                Text(greatMovie.year.description)
-                    .font(Font.ubuntuSmall(type: .regular))
-                Divider()
-                Image(systemName: "eye.fill")
-                    .font(.body.weight(.semibold))
-                    .padding()
-                    .background(Color.green)
-                    .foregroundColor(.white)
-                    .clipShape(Circle())
-                Text("Watched")
-                    .font(Font.ubuntuSmall(type: .regular))
-                Divider()
-                Text("Rated")
-                    .font(Font.ubuntuSmall(type: .regular))
-                Spacer()
-                Button("Done",
-                       action: { showingWatchInfo.toggle()})
-            }
+            MovieWatchSheetView(
+                greatMovie: greatMovie,
+                doneButtonAction: { showingWatchInfo.toggle() }
+            )
             .padding(24)
             .presentationDetents([.fraction(0.35)])
         }
-        
+
     }
 
     @ViewBuilder
@@ -102,7 +85,10 @@ struct MovieDetailView: View {
                     Button(action: {
                         showingWatchInfo.toggle()
                     }) {
-                        Label("View Watch Details", systemImage: "ellipsis.circle")
+                        Label(
+                            "View Watch Details",
+                            systemImage: "ellipsis.circle"
+                        )
                     }
                     .padding(.horizontal, 10)
                     .foregroundStyle(.secondary)
