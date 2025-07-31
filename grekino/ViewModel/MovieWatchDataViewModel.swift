@@ -94,7 +94,7 @@ extension MovieWatchDataViewModel {
             dateWatched: self.state.dateWatched,
             review: self.state.reviewText,
             starRating: self.state.numberOfStars.doubleValue
-        ) { [weak self] result in
+        ) { result in
             switch result {
             case .success:
                 print("successfully updated movie data")
