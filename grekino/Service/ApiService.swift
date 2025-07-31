@@ -10,7 +10,7 @@ import Foundation
 class ApiService {
     static func fetchTmdbConfiguration(completion: @escaping (Result<TmdbConfigurationModel, NetworkError>) -> Void) {
         let url = URL(string: "\(ApiConstants.baseUrl)\(ApiConstants.configurationEndpoint)?api_key=\(ApiKeys.tmdbApiKey)")!
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
+        URLSession.shared.dataTask(with: url) { (data, _, error) in
             if let error = error {
                 print(error)
                 completion(.failure(.badURL))
@@ -33,7 +33,7 @@ class ApiService {
     
     static func fetchTmdbMovieResults(imdbId: String, completion: @escaping (Result<TmdbResultsModel, NetworkError>) -> Void) {
         let url = URL(string: "\(ApiConstants.baseUrl)\(ApiConstants.findEndpoint)/tt\(imdbId)?external_source=imdb_id&api_key=\(ApiKeys.tmdbApiKey)")
-        URLSession.shared.dataTask(with: url!) { (data, response, error) in
+        URLSession.shared.dataTask(with: url!) { (data, _, error) in
             if let error = error {
                 print(error)
                 completion(.failure(.badURL))

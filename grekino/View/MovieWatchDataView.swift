@@ -58,7 +58,7 @@ struct MovieWatchDataView: View {
             Button {
                 viewModel.send(action: .didSave)
                 dismiss()
-            } label : {
+            } label: {
                 Text("Save")
                     .font(Font.ubuntuSmall(type: .regular))
             }
@@ -93,7 +93,7 @@ struct MovieWatchDataView: View {
             DatePicker(selection: $watchDate, displayedComponents: .date) {
                 Text("Date Watched:")
                     .font(Font.ubuntu(type: Font.FontType.regular, size: Font.FontSize.medium))
-            }.onChange(of: watchDate) { oldValue, newValue in
+            }.onChange(of: watchDate) { _, newValue in
                 self.viewModel.setDateWatched(newValue)
                 self.viewModel.send(action: .didUpdateDateWatched)
             }

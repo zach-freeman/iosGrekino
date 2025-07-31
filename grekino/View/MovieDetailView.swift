@@ -84,12 +84,12 @@ struct MovieDetailView: View {
                     Spacer()
                     Button(action: {
                         showingWatchInfo.toggle()
-                    }) {
+                    }, label: {
                         Label(
                             "View Watch Details",
                             systemImage: "ellipsis.circle"
                         )
-                    }
+                    })
                     .padding(.horizontal, 10)
                     .foregroundStyle(.secondary)
                     .labelStyle(.iconOnly)

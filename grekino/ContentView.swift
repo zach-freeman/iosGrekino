@@ -34,8 +34,7 @@ struct ContentView: View {
                         repository: FirestoreGreatMovieRepository(), listId: selectedTab
                     )
                 }
-                Tab(Tabs.four.name, systemImage: Tabs.four.symbol, value: Tabs.four)
-                {
+                Tab(Tabs.four.name, systemImage: Tabs.four.symbol, value: Tabs.four) {
                     MovieListView(
                         repository: FirestoreGreatMovieRepository(), listId: selectedTab
                     )

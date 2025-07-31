@@ -8,7 +8,7 @@ import Foundation
 import FirebaseFirestore
 
 class FirestoreUserRepository: UserRepositoryProtocol {
-    private var db = Firestore.firestore()
+    private var firestoreDatabase = Firestore.firestore()
     var user: UserModel?
     
     static let shared = FirestoreUserRepository()
@@ -16,7 +16,7 @@ class FirestoreUserRepository: UserRepositoryProtocol {
     init() {}
     
     func getUser(userId: String, completion: @escaping (Result<UserModel, NetworkError>) -> Void) {
-        db.collection("users").document(userId).getDocument { snapshot, error in
+        firestoreDatabase.collection("users").document(userId).getDocument { snapshot, error in
             if error != nil {
                 completion(.failure(.badURL))
                 return
@@ -26,19 +26,22 @@ class FirestoreUserRepository: UserRepositoryProtocol {
                 completion(.failure(.noData))
                 return
             }
-            
-            self.user = try! snapshot?.data(as: UserModel.self)
+            do {
+                self.user = try snapshot?.data(as: UserModel.self)
+            } catch {
+                print("error parsing snapshot to UserModel")
+                completion(.failure(.noData))
+            }
             completion(.success(self.user!))
         }
     }
     
     func addUser(user: UserModel, completion: @escaping (Result<Void, NetworkError>) -> Void) {
         do {
-            let _ = try db.collection("users").addDocument(from: user)
+            _ = try firestoreDatabase.collection("users").addDocument(from: user)
             self.user = user
             completion(.success(()))
-        }
-        catch {
+        } catch {
             print("There was an error while trying to save a task \(error.localizedDescription).")
         }
     }
@@ -48,7 +51,7 @@ class FirestoreUserRepository: UserRepositoryProtocol {
     }
     
     func updateUserMovieData(_ greatMovieId: String, dateWatched: String, review: String, starRating: Double, completion: @escaping (Result<Void, NetworkError>) -> Void) {
-        guard user != nil, let user:UserModel = user else {
+        guard user != nil, let user: UserModel = user else {
             print("User not found")
             completion(.failure(.noData))
             return
@@ -57,7 +60,11 @@ class FirestoreUserRepository: UserRepositoryProtocol {
         if userMovieData != nil {
             self.user?.movieData.removeAll(where: { $0.movieID == greatMovieId })
         }
-        let movieData: MovieDataModel = MovieDataModel(movieID: greatMovieId, dateWatched: dateWatched, isWatched: true, review: review, starRating: starRating)
+        let movieData: MovieDataModel = MovieDataModel(movieID: greatMovieId,
+                                                       dateWatched: dateWatched,
+                                                       isWatched: true,
+                                                       review: review,
+                                                       starRating: starRating)
         let isUserMovieUpdated = updateMovieData(movieData)
         if isUserMovieUpdated {
             completion(.success(()))
@@ -74,7 +81,7 @@ class FirestoreUserRepository: UserRepositoryProtocol {
         }
         user?.movieData.append(movieData)
         do {
-            try db.collection("users").document(userId).setData(from: user)
+            try firestoreDatabase.collection("users").document(userId).setData(from: user)
         } catch {
             print("error when trying to update user")
             return false
@@ -83,7 +90,7 @@ class FirestoreUserRepository: UserRepositoryProtocol {
     }
     
     func getMovieData(forGreatMovieId greatMovieId: String, completion: @escaping (Result<MovieDataModel, NetworkError>) -> Void) {
-        guard user != nil, let user:UserModel = user else {
+        guard user != nil, let user: UserModel = user else {
             print("User not found")
             completion(.failure(.noData))
             return

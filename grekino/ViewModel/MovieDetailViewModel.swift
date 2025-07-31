@@ -15,7 +15,7 @@ enum MovieDetailViewAction {
 
 struct MovieDetailState {
     var isLoading: Bool = true
-    var posterImageUrl: String? = nil
+    var posterImageUrl: String?
     var description: String?
     var dateWatched: String = Date().today()
     var review: String = "I love this movie!"
@@ -44,8 +44,7 @@ private extension MovieDetailViewModel {
     func process(action: MovieDetailViewAction) {
         switch action {
         case .didAppear:
-            if movieHasDescription() && movieHasPosterImage()
-            {
+            if movieHasDescription() && movieHasPosterImage() {
                 print("movie has description and poster image")
                 DispatchQueue.main.async { [weak self] in
                     self?.state.isLoading = true
@@ -60,25 +59,23 @@ private extension MovieDetailViewModel {
                 }
                 fetchPosterImage()
             }
-            break
         case .didWatchMovie:
             markMovieAsWatched()
-            break
         }
     }
     
     func movieHasDescription() -> Bool {
-        let hasDescription = self.greatMovieDetailModel.description != nil && greatMovieDetailModel.description != ""
-        return hasDescription
+        guard let description = self.greatMovieDetailModel.description else { return false }
+        return !description.isEmpty
     }
     
     func movieHasPosterImage() -> Bool {
-        let hasPosterImage = greatMovieDetailModel.posterImageUrl != nil && greatMovieDetailModel.posterImageUrl != ""
-        return hasPosterImage
+        guard let posterImageUrl = self.greatMovieDetailModel.posterImageUrl else { return false }
+        return !posterImageUrl.isEmpty
     }
     
     func fetchPosterImage() {
-        tmdbRepository.getImageUrlPrefix() { (result) in
+        tmdbRepository.getImageUrlPrefix { (result) in
             switch result {
             case .success(let imageUrlPrefix):
                 self.fetchMovieDetails(imageUrlPrefix: imageUrlPrefix)
@@ -129,7 +126,6 @@ private extension MovieDetailViewModel {
             switch result {
             case .success:
                 print("Great movie updated successfully")
-                break
             case .failure(let error):
                 print("Error updating great movie: \(error)")
             }
@@ -138,11 +134,15 @@ private extension MovieDetailViewModel {
     }
     
     func markMovieAsWatched() {
-        userRepository.updateUserMovieData(self.greatMovieDetailModel.imdbId, dateWatched: self.state.dateWatched, review: self.state.review, starRating: self.state.starRating) { (result) in
+        userRepository.updateUserMovieData(
+            self.greatMovieDetailModel.imdbId,
+            dateWatched: self.state.dateWatched,
+            review: self.state.review,
+            starRating: self.state.starRating
+        ) { (result) in
             switch result {
             case .success:
                 print("Great movie updated successfully")
-                break
             case .failure(let error):
                 print("Error updating great movie: \(error)")
             }

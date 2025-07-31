@@ -9,10 +9,10 @@ import SwiftUI
 import FirebaseAuth
 
 @Observable class AuthViewModel {
-    var user: User? = nil
-    var userModel: UserModel? = nil
+    var user: User?
+    var userModel: UserModel?
     var isSignedIn: Bool = false
-    private let userRepository : FirestoreUserRepository = FirestoreUserRepository.shared
+    private let userRepository: FirestoreUserRepository = FirestoreUserRepository.shared
     
     init() {
         self.user = Auth.auth().currentUser

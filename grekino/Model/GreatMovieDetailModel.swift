@@ -5,7 +5,6 @@
 //  Created by Zach Freeman on 7/24/25.
 //
 
-
 struct GreatMovieDetailModel: Identifiable, Codable {
     var id: String?
     var name: String

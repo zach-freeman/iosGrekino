@@ -18,11 +18,11 @@ struct MovieListState {
     var isLoading: Bool = false
     var movies: [GreatMovieDetailModel] = []
     var didDetailViewAppear: Bool = false
-    var errorMessage: String? = nil
+    var errorMessage: String?
 }
 
 @Observable class MovieListViewModel {
-    var state : MovieListState = MovieListState()
+    var state: MovieListState = MovieListState()
     
     private let greatMovieManager: GreatMovieManagerProtocol
     private let volume: Int

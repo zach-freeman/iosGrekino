@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct MovieWatchSheetView: View {
-    var greatMovie : GreatMovieDetailModel
-    let doneButtonAction : () -> Void
+    var greatMovie: GreatMovieDetailModel
+    let doneButtonAction: () -> Void
     
-    var body : some View {
+    var body: some View {
         VStack(spacing: 10) {
             Text(greatMovie.name)
                 .font(Font.ubuntuMedium(type: .bold))
@@ -37,4 +37,3 @@ struct MovieWatchSheetView: View {
 #Preview {
     MovieWatchSheetView(greatMovie: PreviewData.getPreviewMovieDetail0(), doneButtonAction: { print("Done")})
 }
-

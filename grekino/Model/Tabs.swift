@@ -43,4 +43,3 @@ enum Tabs: Equatable, Hashable, Identifiable {
         }
     }
 }
-

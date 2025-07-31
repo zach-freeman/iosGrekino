@@ -10,7 +10,7 @@ struct UserModel: Identifiable, Codable {
     @DocumentID var id: String?
     var displayName: String
     var email: String
-    var movieData : [MovieDataModel]
+    var movieData: [MovieDataModel]
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -20,10 +20,9 @@ struct UserModel: Identifiable, Codable {
     }
 }
 
-
-struct MovieDataModel : Codable {
-    var movieID : String
-    var dateWatched : String
+struct MovieDataModel: Codable {
+    var movieID: String
+    var dateWatched: String
     var isWatched: Bool
     var review: String?
     var starRating: Double?

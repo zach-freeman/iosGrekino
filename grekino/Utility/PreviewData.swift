@@ -18,7 +18,12 @@ struct PreviewData {
             imdbId: "akdsjfkajsd",
             posterImageUrl: "https://image.tmdb.org/t/p/w92/3bhkrj58Vtu7enYsRolD1fZdja1.jpg",
             genres: ["drama"],
-            description: "Spanning the years 1945 to 1955, a chronicle of the fictional Italian-American Corleone crime family. When organized crime family patriarch, Vito Corleone barely survives an attempt on his life, his youngest son, Michael steps in to take care of the would-be killers, launching a campaign of bloody revenge.",
+            description: """
+                Spanning the years 1945 to 1955, a chronicle of the fictional Italian-American 
+                Corleone crime family. When organized crime family patriarch, Vito Corleone 
+                barely survives an attempt on his life, his youngest son, Michael steps in 
+                to take care of the would-be killers, launching a campaign of bloody revenge.
+            """,
             isWatched: true,
             dateWatched: "2025-07-16",
             review: "loved it!",
@@ -38,7 +43,12 @@ struct PreviewData {
             imdbId: "akdsjfkajsd",
             posterImageUrl: Constants.noImageFound,
             genres: ["drama"],
-            description: "When the seaside community of Amity finds itself under attack by a dangerous great white shark, the town's chief of police, a young marine biologist, and a grizzled hunter embark on a desperate quest to destroy the beast before it strikes again.",
+            description: """
+                When the seaside community of Amity finds itself under attack by a 
+                dangerous great white shark, the town's chief of police, a young 
+                marine biologist, and a grizzled hunter embark on a desperate quest 
+                to destroy the beast before it strikes again.
+            """,
             isWatched: false,
             dateWatched: "",
             review: "",
@@ -58,7 +68,12 @@ struct PreviewData {
             imdbId: "akdsjfkajsd",
             posterImageUrl: "https://image.tmdb.org/t/p/w92/3bhkrj58Vtu7enYsRolD1fZdja1.jpg",
             genres: ["drama"],
-            description: "Spanning the years 1945 to 1955, a chronicle of the fictional Italian-American Corleone crime family. When organized crime family patriarch, Vito Corleone barely survives an attempt on his life, his youngest son, Michael steps in to take care of the would-be killers, launching a campaign of bloody revenge."
+            description: """
+                Spanning the years 1945 to 1955, a chronicle of the fictional Italian-American 
+                Corleone crime family. When organized crime family patriarch, Vito Corleone 
+                barely survives an attempt on his life, his youngest son, Michael steps in 
+                to take care of the would-be killers, launching a campaign of bloody revenge.
+            """,
         )
     }
     
@@ -74,7 +89,12 @@ struct PreviewData {
             imdbId: "akdsjfkajsd",
             posterImageUrl: Constants.noImageFound,
             genres: ["drama"],
-            description: "When the seaside community of Amity finds itself under attack by a dangerous great white shark, the town's chief of police, a young marine biologist, and a grizzled hunter embark on a desperate quest to destroy the beast before it strikes again."
+            description: """
+                When the seaside community of Amity finds itself under attack by a 
+                dangerous great white shark, the town's chief of police, a young 
+                marine biologist, and a grizzled hunter embark on a desperate quest 
+                to destroy the beast before it strikes again.
+            """,
         )
     }
     

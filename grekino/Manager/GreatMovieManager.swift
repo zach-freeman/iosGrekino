@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class GreatMovieManager : GreatMovieManagerProtocol {
+public class GreatMovieManager: GreatMovieManagerProtocol {
     private var greatMovieRepository: GreatMovieRepositoryProtocol
     private var userRepository: UserRepositoryProtocol = FirestoreUserRepository.shared
     var greatMovieDetails: [GreatMovieDetailModel] = []
@@ -20,7 +20,7 @@ public class GreatMovieManager : GreatMovieManagerProtocol {
         self.greatMovieRepository.getGreatMovieByVolume(volume: volume) { result in
             switch result {
             case .success(let greatMovies):
-                if greatMovies.count > 0 {
+                if !greatMovies.isEmpty {
                     let userId = UserDefaults.standard.getUserId() ?? ""
                     self.userRepository.getUser(userId: userId) { result in
                         switch result {

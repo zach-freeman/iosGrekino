@@ -9,6 +9,7 @@ import SwiftUI
 import Firebase
 
 @main
+// swiftlint:disable:next type_name
 struct grekinoApp: App {
 
     init() {

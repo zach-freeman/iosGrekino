@@ -7,7 +7,7 @@
 
 import Testing
 @testable import grekino
-
+// swiftlint:disable:next type_name
 struct grekinoTests {
 
     @Test func example() async throws {

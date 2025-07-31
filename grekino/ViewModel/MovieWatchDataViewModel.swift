@@ -74,8 +74,7 @@ extension MovieWatchDataViewModel {
     }
 
     fileprivate func initializeMovieData() {
-        userRepository.getMovieData(forGreatMovieId: self.greatMovie.id ?? "") {
-            [weak self] result in
+        userRepository.getMovieData(forGreatMovieId: self.greatMovie.id ?? "") { [weak self] result in
             switch result {
             case .success(let movieData):
                 self?.state.isMovieWatched = movieData.isWatched

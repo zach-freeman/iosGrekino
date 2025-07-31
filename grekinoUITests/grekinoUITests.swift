@@ -6,7 +6,7 @@
 //
 
 import XCTest
-
+// swiftlint:disable:next type_name
 final class grekinoUITests: XCTestCase {
 
     override func setUpWithError() throws {

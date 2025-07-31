@@ -14,7 +14,7 @@ struct StarRatingView: View {
     var body: some View {
         HStack(alignment: .center) {
             Spacer()
-            ForEach(0..<numberOfStars, id:\.self) { i in
+            ForEach(0..<numberOfStars, id: \.self) { _ in
                 Image(systemName: "star.fill")
                     .font(font)
                     .foregroundColor(color)
